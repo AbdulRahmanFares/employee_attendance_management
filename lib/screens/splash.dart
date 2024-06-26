@@ -1,5 +1,5 @@
 import 'package:employee_attendance_management/constants.dart';
-import 'package:employee_attendance_management/screens/login_method.dart';
+import 'package:employee_attendance_management/screens/user_access.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,15 +18,15 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    alreadyLoggedIn ? navigateToHomePage() : navigateToLoginMethodPage();
+    alreadyLoggedIn ? navigateToHomePage() : navigateToUserAccessPage(); // Check if user is already logged in
   }
 
-  // Navigate to login method page
-  navigateToLoginMethodPage() async {
+  // Navigate to user access page
+  navigateToUserAccessPage() async {
     await Future.delayed(const Duration(seconds: 2));
 
     Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (context) => const LoginMethod() // Navigate to login method page
+      builder: (context) => const UserAccess() // Navigate to user access page
     ));
   }
 
@@ -55,7 +55,7 @@ class _SplashState extends State<Splash> {
             Text(
               "SCAN",
               style: GoogleFonts.poppins(
-                fontSize: screenHeight * 0.06,
+                fontSize: screenHeight * 0.05,
                 color: obj.darkGray,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1
@@ -67,7 +67,7 @@ class _SplashState extends State<Splash> {
                 Text(
                   "P",
                   style: GoogleFonts.poppins(
-                    fontSize: screenHeight * 0.06,
+                    fontSize: screenHeight * 0.05,
                     color: obj.navyBlue,
                     fontWeight: FontWeight.bold
                   )
@@ -86,7 +86,7 @@ class _SplashState extends State<Splash> {
                 Text(
                   "INT",
                   style: GoogleFonts.poppins(
-                    fontSize: screenHeight * 0.06,
+                    fontSize: screenHeight * 0.05,
                     color: obj.navyBlue,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1

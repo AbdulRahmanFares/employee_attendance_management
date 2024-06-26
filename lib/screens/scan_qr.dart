@@ -1,17 +1,19 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
-import 'package:employee_attendance_management/screens/allow_location.dart';
+import 'package:employee_attendance_management/screens/confirmation.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
-import 'package:employee_attendance_management/screens/login_method.dart';
+import 'package:employee_attendance_management/screens/user_access.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ScanQR extends StatefulWidget {
+  final String idPreference;
   final String id;
 
   const ScanQR({
+    required this.idPreference,
     required this.id,
     super.key
   });
@@ -50,7 +52,7 @@ class _ScanQRState extends State<ScanQR> {
     // Navigate to Home page if QR scan result is not empty and not cancelled
     if (qrScanResult != '-1' && qrScanResult.isNotEmpty) {
       Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => AllowLocation(id: widget.id) // Navigate to allow location page
+        builder: (context) => Confirmation(idPreference: widget.idPreference, id: widget.id) // Navigate to confirmation page
       ));
     }
 
@@ -151,7 +153,7 @@ class _ScanQRState extends State<ScanQR> {
                       // Come back later button
                       ElevatedButton(
                         onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (context) => const LoginMethod() // Navigate to login page
+                          builder: (context) => const UserAccess() // Navigate to user access page
                         )),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,

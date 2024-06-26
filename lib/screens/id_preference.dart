@@ -5,11 +5,11 @@ import 'package:employee_attendance_management/screens/fetch_mobile_number.dart'
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPreference extends StatelessWidget {
-  final String loginMethod;
+class IdPreference extends StatelessWidget {
+  final String userAccess;
 
-  const LoginPreference({
-    required this.loginMethod,
+  const IdPreference({
+    required this.userAccess,
     super.key
   });
 
@@ -63,7 +63,7 @@ class LoginPreference extends StatelessWidget {
                     // Mobile number
                     ElevatedButton(
                       onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => FetchMobileNumber(loginMethod: loginMethod) // Navigate to fetch mobile number page
+                        builder: (context) => FetchMobileNumber(userAccess: userAccess) // Navigate to fetch mobile number page
                       )),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: obj.navyBlue,
@@ -86,7 +86,7 @@ class LoginPreference extends StatelessWidget {
                     // Employee id
                     ElevatedButton(
                       onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => EmployeeId(loginMethod: loginMethod) // Navigate to employee id page
+                        builder: (context) => EmployeeId(userAccess: userAccess) // Navigate to employee id page
                       )),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: obj.navyBlue,

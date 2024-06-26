@@ -4,18 +4,17 @@ import 'package:employee_attendance_management/screens/custom_clipper.dart';
 import 'package:employee_attendance_management/screens/employee_id.dart';
 import 'package:employee_attendance_management/screens/fetch_mobile_number.dart';
 import 'package:employee_attendance_management/screens/home.dart';
-import 'package:employee_attendance_management/screens/scan_qr.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Password extends StatefulWidget {
-  final String loginMethod;
-  final String loginPreference;
+  final String userAccess;
+  final String idPreference;
   final String id;
 
   const Password({
-    required this.loginMethod,
-    required this.loginPreference,
+    required this.userAccess,
+    required this.idPreference,
     required this.id,
     super.key
   });
@@ -51,13 +50,13 @@ class _PasswordState extends State<Password> {
               alignment: Alignment.topLeft,
               child: IconButton(
                 onPressed: () {
-                  if (widget.loginPreference == "mobileNumber") {
+                  if (widget.idPreference == "mobileNumber") {
                     Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => FetchMobileNumber(loginMethod: widget.loginMethod) // Navigate to fetch mobile number page
+                      builder: (context) => FetchMobileNumber(userAccess: widget.userAccess) // Navigate to fetch mobile number page
                     ));
                   } else {
                     Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => EmployeeId(loginMethod: widget.loginMethod) // Navigate to employee id page
+                      builder: (context) => EmployeeId(userAccess: widget.userAccess) // Navigate to employee id page
                     ));
                   }
                 },
@@ -177,17 +176,9 @@ class _PasswordState extends State<Password> {
 
                       // Verify button
                       ElevatedButton(
-                        onPressed: () {
-                          if (widget.loginMethod == "quickLogin") {
-                            Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => Home(id: widget.id) // Navigate to home page
-                            ));
-                          } else {
-                            Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => ScanQR(id: widget.id) // Navigate to scan qr page
-                            ));
-                          }
-                        },
+                        onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) => Home(idPreference: widget.idPreference, id: widget.id) // Navigate to home page
+                        )),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,
                           fixedSize: Size(screenWidth * 0.9, screenHeight * 0.1),

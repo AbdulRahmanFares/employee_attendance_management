@@ -1,16 +1,17 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
+import 'package:employee_attendance_management/screens/allow_location.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
-import 'package:employee_attendance_management/screens/login_preference.dart';
+import 'package:employee_attendance_management/screens/id_preference.dart';
 import 'package:employee_attendance_management/screens/password.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EmployeeId extends StatefulWidget {
-  final String loginMethod;
+  final String userAccess;
   
   const EmployeeId({
-    required this.loginMethod,
+    required this.userAccess,
     super.key
   });
 
@@ -23,7 +24,7 @@ class _EmployeeIdState extends State<EmployeeId> {
   final obj = Constants();
   TextEditingController employeeIdController = TextEditingController();
   String emplId = "";
-  String loginPreference = "";
+  String idPreference = "";
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class _EmployeeIdState extends State<EmployeeId> {
               alignment: Alignment.topLeft,
               child: IconButton(
                 onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) => LoginPreference(loginMethod: widget.loginMethod) // Navigate to login preference page
+                  builder: (context) => IdPreference(userAccess: widget.userAccess) // Navigate to id preference page
                 )),
                 icon: Icon(
                   Icons.arrow_back_ios_new,
@@ -149,10 +150,17 @@ class _EmployeeIdState extends State<EmployeeId> {
                       // Verify button
                       ElevatedButton(
                         onPressed: () {
-                          loginPreference = "employeeId";
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                            builder: (context) => Password(loginMethod: widget.loginMethod, loginPreference: loginPreference, id: emplId) // Navigate to password page
-                          ));
+                          if (widget.userAccess == "login") {
+                            idPreference = "employeeId";
+                            Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, id: emplId) // Navigate to password page
+                            ));
+                          } else {
+                            idPreference = "employeeId";
+                            Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (context) => AllowLocation(idPreference: idPreference, id: emplId) // Navigate to allow location page
+                            ));
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,

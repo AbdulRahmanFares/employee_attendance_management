@@ -1,16 +1,18 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
-import 'package:employee_attendance_management/screens/home.dart';
-import 'package:employee_attendance_management/screens/login_method.dart';
+import 'package:employee_attendance_management/screens/scan_qr.dart';
+import 'package:employee_attendance_management/screens/user_access.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllowLocation extends StatefulWidget {
+  final String idPreference;
   final String id;
   
   const AllowLocation({
+    required this.idPreference,
     required this.id,
     super.key
   });
@@ -33,7 +35,7 @@ class _AllowLocationState extends State<AllowLocation> {
     if (permission == LocationPermission.whileInUse ||
         permission == LocationPermission.always) {
           Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => Home(id: widget.id) // Navigate to home page
+            builder: (context) => ScanQR(idPreference: widget.idPreference, id: widget.id) // Navigate to scan qr page
           ));
         } else {
           // Permission denied or permanently denied
@@ -152,7 +154,7 @@ class _AllowLocationState extends State<AllowLocation> {
                       // Come back later button
                       ElevatedButton(
                         onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (context) => const LoginMethod() // Navigate to login page
+                          builder: (context) => const UserAccess() // Navigate to user access page
                         )),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,

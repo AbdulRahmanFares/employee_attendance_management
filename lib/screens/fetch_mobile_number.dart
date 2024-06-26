@@ -1,7 +1,8 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
+import 'package:employee_attendance_management/screens/allow_location.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
-import 'package:employee_attendance_management/screens/login_preference.dart';
+import 'package:employee_attendance_management/screens/id_preference.dart';
 import 'package:employee_attendance_management/screens/password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,10 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_number/mobile_number.dart';
 
 class FetchMobileNumber extends StatefulWidget {
-  final String loginMethod;
+  final String userAccess;
 
   const FetchMobileNumber({
-    required this.loginMethod,
+    required this.userAccess,
     super.key
   });
 
@@ -26,7 +27,7 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
   TextEditingController mobileNumberController = TextEditingController();
   String mobileNumber = "";
   List<SimCard> simCard = <SimCard>[];
-  String loginPreference = "";
+  String idPreference = "";
 
   @override
   void initState() {
@@ -91,7 +92,7 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
               alignment: Alignment.topLeft,
               child: IconButton(
                 onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) => LoginPreference(loginMethod: widget.loginMethod) // Navigate to login preference page
+                  builder: (context) => IdPreference(userAccess: widget.userAccess) // Navigate to id preference page
                 )),
                 icon: Icon(
                   Icons.arrow_back_ios_new,
@@ -217,10 +218,17 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
                       // Verify button
                       ElevatedButton(
                         onPressed: () {
-                          loginPreference = "mobileNumber";
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                            builder: (context) => Password(loginMethod: widget.loginMethod, loginPreference: loginPreference, id: mobileNumber) // Navigate to password page
-                          ));
+                          if (widget.userAccess == "login") {
+                            idPreference = "mobileNumber";
+                            Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, id: mobileNumber) // Navigate to password page
+                            ));
+                          } else {
+                            idPreference = "mobileNumber";
+                            Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (context) => AllowLocation(idPreference: idPreference, id: mobileNumber) // Navigate to allow location page
+                            ));
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,

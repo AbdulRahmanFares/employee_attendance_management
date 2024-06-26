@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
+  final String idPreference;
   final String id;
 
   const Home({
+    required this.idPreference,
     required this.id,
     super.key
   });

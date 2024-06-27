@@ -49,50 +49,45 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
+        child: Container(
+          height: screenHeight * 0.08,
+          width: screenWidth * 0.35,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: obj.darkGray
+            )
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            "LOGO",
+            style: GoogleFonts.poppins(
+              fontSize: screenHeight * 0.04,
+              color: obj.navyBlue,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 2
+            )
+          )
+        )
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(
+          bottom: screenHeight * 0.02
+        ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "SCAN",
+              "Powered by ",
               style: GoogleFonts.poppins(
-                fontSize: screenHeight * 0.05,
+                fontSize: screenWidth * 0.04,
                 color: obj.darkGray,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 letterSpacing: 1
               )
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "P",
-                  style: GoogleFonts.poppins(
-                    fontSize: screenHeight * 0.05,
-                    color: obj.navyBlue,
-                    fontWeight: FontWeight.bold
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: screenWidth * 0.02,
-                    right: screenWidth * 0.02
-                  ),
-                  child: Image.asset(
-                    "assets/images/focus.png",
-                    height: screenWidth * 0.09,
-                    color: obj.darkGray
-                  )
-                ),
-                Text(
-                  "INT",
-                  style: GoogleFonts.poppins(
-                    fontSize: screenHeight * 0.05,
-                    color: obj.navyBlue,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1
-                  )
-                )
-              ]
+            Image.asset(
+              "assets/images/lead.png",
+              height: screenWidth * 0.07
             )
           ]
         )

@@ -1,6 +1,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
+import 'package:employee_attendance_management/screens/user_access.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -254,6 +255,39 @@ class _HomeState extends State<Home> {
                     ]
                   )
                 )
+              )
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: PopupMenuButton(
+                iconColor: obj.darkGray, // Popup icon color
+                color: Colors.white, // Popup menu color
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => const UserAccess() // Navigate to user access page
+                    )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(
+                          Icons.logout_sharp,
+                          size: screenWidth * 0.06,
+                          color: obj.navyBlue
+                        ),
+                        Text(
+                          "Logout",
+                          style: GoogleFonts.poppins(
+                            fontSize: screenWidth * 0.045,
+                            color: obj.darkGray,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1
+                          )
+                        )
+                      ]
+                    )
+                  )
+                ]
               )
             )
           ]

@@ -2,6 +2,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
 import 'package:employee_attendance_management/screens/employee_id.dart';
 import 'package:employee_attendance_management/screens/fetch_mobile_number.dart';
+import 'package:employee_attendance_management/screens/user_access.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -31,7 +32,7 @@ class IdPreference extends StatelessWidget {
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    "assets/images/login_bg.jpg"
+                    "assets/images/id_preference_bg.jpg"
                   ),
                   fit: BoxFit.fill
                 )
@@ -103,6 +104,19 @@ class IdPreference extends StatelessWidget {
                       )
                     )
                   ]
+                )
+              )
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) => const UserAccess() // Navigate to user access page
+                )),
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: obj.darkGray,
+                  size: screenWidth * 0.07
                 )
               )
             )

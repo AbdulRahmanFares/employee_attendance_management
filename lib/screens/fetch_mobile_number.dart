@@ -115,21 +115,11 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
   }
 
   @override
-  void dispose() {
-    mobileNumberController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
 
     // Device's screen size
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
-    
-
-    
 
     return ColorfulSafeArea(
       color: obj.darkGray,

@@ -36,6 +36,7 @@ class _EmployeeIdState extends State<EmployeeId> {
     validationColor = obj.darkGray;
   }
 
+  // Function to verify employee Id and get password from DB
   Future<void> verifyEmployeeId() async {
     emplId = employeeIdController.text;
     const String url = "https://schmidivan.com/Fares/employee_attendance_management/get_password";

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ScanQR extends StatefulWidget {
   final String emplId;
@@ -23,9 +25,16 @@ class ScanQR extends StatefulWidget {
 class _ScanQRState extends State<ScanQR> {
 
   final obj = Constants();
+  String qrCode = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getQRCode();
+  }
 
   // Platform messages are asynchronous, so we initialize in an async method
-  Future<void> scanQR() async {
+  Future<void> scanQR(String qrCode) async {
     String qrScanResult = ""; // Initialize with an empty string
 
     // Platform messages may fail, so we use a try / catch PlatformException
@@ -36,6 +45,7 @@ class _ScanQRState extends State<ScanQR> {
         true, // Show flash icon
         ScanMode.QR // Scan mode
       );
+      debugPrint("QR code: $qrCode");
       debugPrint("QR scan result: $qrScanResult");
     } on PlatformException catch (e) {
       debugPrint("Failed to scan qr because of ${e.message}");
@@ -47,14 +57,47 @@ class _ScanQRState extends State<ScanQR> {
 
     if (!mounted) return;
 
-    // Navigate to Home page if QR scan result is not empty and not cancelled
-    if (qrScanResult != '-1' && qrScanResult.isNotEmpty) {
+    // // Navigate to Home page if QR scan result is not empty and not cancelled
+    // if (qrScanResult != '-1' && qrScanResult.isNotEmpty) {
+    //   Navigator.pushReplacement(context, MaterialPageRoute(
+    //     builder: (context) => Confirmation(emplId: widget.emplId) // Navigate to confirmation page
+    //   ));
+    // }
+
+    // Navigate to the confirmation page if the qr scan result matches with the qr code
+    if (qrScanResult == qrCode) {
       Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => Confirmation(emplId: widget.emplId) // Navigate to confirmation page
+        builder: (context) => Confirmation(emplId: widget.emplId)
       ));
     }
 
     setState(() {});
+  }
+
+  // Function to get qr code from DB
+  Future getQRCode() async {
+    const String url = "https://schmidivan.com/Fares/employee_attendance_management/get_qr_code";
+    final response = await http.get(Uri.parse("$url?emplId=${widget.emplId}"));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"]) {
+        // Process the successful response
+        debugPrint("QR Code: ${jsonResponse["qr_code"]}");
+
+        qrCode = jsonResponse["qr_code"];
+        return qrCode;
+      } else {
+        // Handle error response
+        debugPrint("Error: ${jsonResponse["message"]}");
+
+        qrCode = jsonResponse["message"];
+        return qrCode;
+      }
+    } else {
+      // Handle HTTP error
+      debugPrint("Error: ${response.statusCode}");
+    }
   }
 
   @override
@@ -129,7 +172,7 @@ class _ScanQRState extends State<ScanQR> {
 
                       // Scan button
                       ElevatedButton(
-                        onPressed: () => scanQR(),
+                        onPressed: () => scanQR(qrCode),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,
                           fixedSize: Size(screenWidth * 0.9, screenHeight * 0.1),

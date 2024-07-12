@@ -50,7 +50,9 @@ class IdPreference extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Choose your preferred login Id",
+                      userAccess == "login"
+                        ? "Choose your preferred Id for login"
+                        : "Choose your preferred Id for attendance",
                       style: GoogleFonts.poppins(
                         fontSize: screenWidth * 0.04,
                         color: obj.darkGray,

@@ -1,5 +1,6 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
+import 'package:employee_attendance_management/screens/allow_location.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
 import 'package:employee_attendance_management/screens/id_preference.dart';
 import 'package:employee_attendance_management/screens/password.dart';
@@ -88,10 +89,17 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
         emplId = jsonResponse["empl_id"];
         password = jsonResponse["password"];
 
-        // Navigate to the password page with the fetched emplId and password
-        Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, emplId: emplId, password: password)
-        ));
+        if (widget.userAccess == "login") {
+          // Navigate to the password page with the fetched emplId and password
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, emplId: emplId, password: password)
+          ));
+        } else {
+          // Navigate to the allow location page with the fetched emplId
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => AllowLocation(emplId: emplId)
+          ));
+        }
       } else {
         // Handle error response
         debugPrint("Error: ${jsonResponse["message"]}");

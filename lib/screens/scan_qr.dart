@@ -9,12 +9,10 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ScanQR extends StatefulWidget {
-  final String idPreference;
-  final String id;
+  final String emplId;
 
   const ScanQR({
-    required this.idPreference,
-    required this.id,
+    required this.emplId,
     super.key
   });
 
@@ -52,7 +50,7 @@ class _ScanQRState extends State<ScanQR> {
     // Navigate to Home page if QR scan result is not empty and not cancelled
     if (qrScanResult != '-1' && qrScanResult.isNotEmpty) {
       Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => Confirmation(idPreference: widget.idPreference, id: widget.id) // Navigate to confirmation page
+        builder: (context) => Confirmation(emplId: widget.emplId) // Navigate to confirmation page
       ));
     }
 

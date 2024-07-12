@@ -8,12 +8,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllowLocation extends StatefulWidget {
-  final String idPreference;
-  final String id;
+  final String emplId;
   
   const AllowLocation({
-    required this.idPreference,
-    required this.id,
+    required this.emplId,
     super.key
   });
 
@@ -35,7 +33,7 @@ class _AllowLocationState extends State<AllowLocation> {
     if (permission == LocationPermission.whileInUse ||
         permission == LocationPermission.always) {
           Navigator.pushReplacement(context, MaterialPageRoute(
-            builder: (context) => ScanQR(idPreference: widget.idPreference, id: widget.id) // Navigate to scan qr page
+            builder: (context) => ScanQR(emplId: widget.emplId) // Navigate to scan qr page
           ));
         } else {
           // Permission denied or permanently denied

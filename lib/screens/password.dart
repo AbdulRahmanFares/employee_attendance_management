@@ -30,6 +30,13 @@ class _PasswordState extends State<Password> {
   final obj = Constants();
   TextEditingController passwordController = TextEditingController();
   bool obscureText = true; // Hide password
+  late Color validationColor;
+
+  @override
+  void initState() {
+    super.initState();
+    validationColor = obj.darkGray;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +143,7 @@ class _PasswordState extends State<Password> {
                         width: screenWidth * 0.9,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: obj.darkGray
+                            color: validationColor
                           )
                         ),
                         alignment: Alignment.center,
@@ -183,6 +190,10 @@ class _PasswordState extends State<Password> {
                             Navigator.pushReplacement(context, MaterialPageRoute(
                               builder: (context) => Home(emplId: widget.emplId) // Navigate to home page
                             ));
+                          } else {
+                            setState(() {
+                              validationColor = Colors.red;
+                            });
                           }
                         },
                         style: ElevatedButton.styleFrom(

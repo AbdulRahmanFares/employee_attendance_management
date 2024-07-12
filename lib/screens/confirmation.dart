@@ -2,12 +2,10 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 
 class Confirmation extends StatelessWidget {
-  final String idPreference;
-  final String id;
+  final String emplId;
 
   const Confirmation({
-    required this.idPreference,
-    required this.id,
+    required this.emplId,
     super.key
   });
 

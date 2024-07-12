@@ -1,5 +1,6 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
+import 'package:employee_attendance_management/screens/allow_location.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
 import 'package:employee_attendance_management/screens/id_preference.dart';
 import 'package:employee_attendance_management/screens/password.dart';
@@ -27,6 +28,13 @@ class _EmployeeIdState extends State<EmployeeId> {
   String idPreference = "employeeId";
   String emplId = "";
   String password = "";
+  late Color validationColor;
+
+  @override
+  void initState() {
+    super.initState();
+    validationColor = obj.darkGray;
+  }
 
   Future<void> verifyEmployeeId() async {
     emplId = employeeIdController.text;
@@ -41,11 +49,28 @@ class _EmployeeIdState extends State<EmployeeId> {
 
         password = jsonResponse["password"];
 
-        // Navigate to the password page with the fetched password
-        Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, emplId: emplId, password: password)
-        ));
+        if (widget.userAccess == "login") {
+          // Navigate to the password page with the fetched emplId and password
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, emplId: emplId, password: password)
+          ));
+        } else {
+          // Navigate to the allow location page with the fetched emplId
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) => AllowLocation(emplId: emplId)
+          ));
+        }
+      } else {
+        // Handle error response
+        debugPrint("Error: ${jsonResponse["message"]}");
+
+        setState(() {
+          validationColor = Colors.red;
+        });
       }
+    } else {
+      // Handle HTTP error
+      debugPrint("Error: ${response.statusCode}");
     }
   }
 
@@ -146,7 +171,7 @@ class _EmployeeIdState extends State<EmployeeId> {
                       width: screenWidth * 0.9,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: obj.darkGray
+                          color: validationColor
                         )
                       ),
                       alignment: Alignment.center,

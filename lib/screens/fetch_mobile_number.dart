@@ -1,6 +1,5 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
-import 'package:employee_attendance_management/screens/allow_location.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
 import 'package:employee_attendance_management/screens/id_preference.dart';
 import 'package:employee_attendance_management/screens/password.dart';
@@ -8,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_number/mobile_number.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class FetchMobileNumber extends StatefulWidget {
   final String userAccess;
@@ -27,11 +28,15 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
   TextEditingController mobileNumberController = TextEditingController();
   String mobileNumber = "";
   List<SimCard> simCard = <SimCard>[];
-  String idPreference = "";
+  String idPreference = "mobileNumber";
+  String emplId = "";
+  String password = "";
+  late Color validationColor;
 
   @override
   void initState() {
     super.initState();
+    validationColor = obj.darkGray;
     MobileNumber.listenPhonePermission((isPermissionGranted) => {
       if (isPermissionGranted) {
         initMobileNumberState()
@@ -68,8 +73,43 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
     setState(() {});
   }
 
-  String formatMobileNumber(String countryCode, String number) {
-    return "$countryCode - $number";
+  // Function to verify mobile number and get emplId and password from DB
+  Future<void> verifyMobileNumber() async {
+    const String url = "https://schmidivan.com/Fares/employee_attendance_management/get_password";
+    final response = await http.get(Uri.parse("$url?id=${mobileNumberController.text}&idPreference=$idPreference"));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"]) {
+        // Process the successful response
+        debugPrint("Employee ID: ${jsonResponse["empl_id"]}");
+        debugPrint("Password: ${jsonResponse["password"]}");
+
+        emplId = jsonResponse["empl_id"];
+        password = jsonResponse["password"];
+
+        // Navigate to the password page with the fetched emplId and password
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, emplId: emplId, password: password)
+        ));
+      } else {
+        // Handle error response
+        debugPrint("Error: ${jsonResponse["message"]}");
+
+        setState(() {
+          validationColor = Colors.red;
+        });
+      }
+    } else {
+      // Handle HTTP error
+      debugPrint("Error: ${response.statusCode}");
+    }
+  }
+
+  @override
+  void dispose() {
+    mobileNumberController.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,6 +118,10 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
     // Device's screen size
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+
+    
+
+    
 
     return ColorfulSafeArea(
       color: obj.darkGray,
@@ -167,7 +211,7 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
                             width: screenWidth * 0.2,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: obj.darkGray
+                                color: validationColor
                               )
                             ),
                             child: Icon(
@@ -189,7 +233,7 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
                             width: screenWidth * 0.65,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: obj.darkGray
+                                color: validationColor
                               )
                             ),
                             alignment: Alignment.center,
@@ -217,19 +261,7 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
 
                       // Verify button
                       ElevatedButton(
-                        onPressed: () {
-                          if (widget.userAccess == "login") {
-                            idPreference = "mobileNumber";
-                            Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, id: mobileNumber) // Navigate to password page
-                            ));
-                          } else {
-                            idPreference = "mobileNumber";
-                            Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => AllowLocation(idPreference: idPreference, id: mobileNumber) // Navigate to allow location page
-                            ));
-                          }
-                        },
+                        onPressed: () => verifyMobileNumber(),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,
                           fixedSize: Size(screenWidth * 0.9, screenHeight * 0.1),

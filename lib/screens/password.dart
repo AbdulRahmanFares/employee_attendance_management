@@ -10,12 +10,14 @@ import 'package:google_fonts/google_fonts.dart';
 class Password extends StatefulWidget {
   final String userAccess;
   final String idPreference;
-  final String id;
+  final String emplId;
+  final String password;
 
   const Password({
     required this.userAccess,
     required this.idPreference,
-    required this.id,
+    required this.emplId,
+    required this.password,
     super.key
   });
 
@@ -27,7 +29,6 @@ class _PasswordState extends State<Password> {
 
   final obj = Constants();
   TextEditingController passwordController = TextEditingController();
-  String password = "";
   bool obscureText = true; // Hide password
 
   @override
@@ -176,9 +177,14 @@ class _PasswordState extends State<Password> {
 
                       // Verify button
                       ElevatedButton(
-                        onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (context) => Home(idPreference: widget.idPreference, id: widget.id) // Navigate to home page
-                        )),
+                        onPressed: () {
+                          // Password matches
+                          if (widget.password == passwordController.text) {
+                            Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (context) => Home(emplId: widget.emplId) // Navigate to home page
+                            ));
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,
                           fixedSize: Size(screenWidth * 0.9, screenHeight * 0.1),

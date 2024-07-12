@@ -1,11 +1,12 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:employee_attendance_management/constants.dart';
-import 'package:employee_attendance_management/screens/allow_location.dart';
 import 'package:employee_attendance_management/screens/custom_clipper.dart';
 import 'package:employee_attendance_management/screens/id_preference.dart';
 import 'package:employee_attendance_management/screens/password.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EmployeeId extends StatefulWidget {
   final String userAccess;
@@ -23,8 +24,30 @@ class _EmployeeIdState extends State<EmployeeId> {
 
   final obj = Constants();
   TextEditingController employeeIdController = TextEditingController();
+  String idPreference = "employeeId";
   String emplId = "";
-  String idPreference = "";
+  String password = "";
+
+  Future<void> verifyEmployeeId() async {
+    emplId = employeeIdController.text;
+    const String url = "https://schmidivan.com/Fares/employee_attendance_management/get_password";
+    final response = await http.get(Uri.parse("$url?id=$emplId&idPreference=$idPreference"));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      if (jsonResponse["success"]) {
+        // Process the successful response
+        debugPrint("Password: ${jsonResponse["password"]}");
+
+        password = jsonResponse["password"];
+
+        // Navigate to the password page with the fetched password
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, emplId: emplId, password: password)
+        ));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,19 +172,7 @@ class _EmployeeIdState extends State<EmployeeId> {
 
                       // Verify button
                       ElevatedButton(
-                        onPressed: () {
-                          if (widget.userAccess == "login") {
-                            idPreference = "employeeId";
-                            Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => Password(userAccess: widget.userAccess, idPreference: idPreference, id: emplId) // Navigate to password page
-                            ));
-                          } else {
-                            idPreference = "employeeId";
-                            Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => AllowLocation(idPreference: idPreference, id: emplId) // Navigate to allow location page
-                            ));
-                          }
-                        },
+                        onPressed: () => verifyEmployeeId(),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: obj.navyBlue,
                           fixedSize: Size(screenWidth * 0.9, screenHeight * 0.1),

@@ -6,12 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
-  final String idPreference;
-  final String id;
+  final String emplId;
 
   const Home({
-    required this.idPreference,
-    required this.id,
+    required this.emplId,
     super.key
   });
 

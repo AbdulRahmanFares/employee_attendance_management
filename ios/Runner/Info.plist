@@ -52,5 +52,12 @@
     
     <key>NSLocationAlwaysUsageDescription</key>
     <string>We need your location to provide better services.</string>
+
+	<!-- Required permissions for internet access -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

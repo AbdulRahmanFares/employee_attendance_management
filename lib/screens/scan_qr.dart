@@ -57,18 +57,18 @@ class _ScanQRState extends State<ScanQR> {
 
     if (!mounted) return;
 
-    // // Navigate to Home page if QR scan result is not empty and not cancelled
-    // if (qrScanResult != '-1' && qrScanResult.isNotEmpty) {
-    //   Navigator.pushReplacement(context, MaterialPageRoute(
-    //     builder: (context) => Confirmation(emplId: widget.emplId) // Navigate to confirmation page
-    //   ));
-    // }
-
     // Navigate to the confirmation page if the qr scan result matches with the qr code
     if (qrScanResult == qrCode) {
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) => Confirmation(emplId: widget.emplId)
       ));
+    } else {
+      // Show an error message if the qr scan result doesn't match with the qr code
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Invalid QR code")
+      ));
+
+      debugPrint("QR code does not match");
     }
 
     setState(() {});

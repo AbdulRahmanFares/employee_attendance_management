@@ -77,7 +77,11 @@ class _FetchMobileNumberState extends State<FetchMobileNumber> {
   // Function to verify mobile number and get emplId and password from DB
   Future<void> verifyMobileNumber() async {
     const String url = "https://schmidivan.com/Fares/employee_attendance_management/get_password";
-    final response = await http.get(Uri.parse("$url?id=${mobileNumberController.text}&idPreference=$idPreference"));
+    
+    // Encode the mobile number to make it URL-safe, escaping special characters (Eg: + in +15555215554)
+    String encodedMobileNumber = Uri.encodeComponent(mobileNumberController.text);
+
+    final response = await http.get(Uri.parse("$url?id=$encodedMobileNumber&idPreference=$idPreference"));
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);

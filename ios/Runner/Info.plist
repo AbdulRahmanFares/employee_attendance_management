@@ -47,11 +47,12 @@
 	<true/>
 
 	<!-- Required permissions for location access -->
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to provide better services.</string>
-    
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>We need your location to provide better services.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to mark attendance</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to your location to mark attendance.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to mark attendance.</string>
 
 	<!-- Required permissions for internet access -->
     <key>NSAppTransportSecurity</key>

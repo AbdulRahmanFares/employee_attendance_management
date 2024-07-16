@@ -47,47 +47,37 @@ class _SplashState extends State<Splash> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: obj.lightGray,
       body: Center(
-        child: Container(
-          height: screenHeight * 0.08,
-          width: screenWidth * 0.35,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: obj.darkGray
-            )
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            "LOGO",
-            style: GoogleFonts.poppins(
-              fontSize: screenHeight * 0.04,
-              color: obj.navyBlue,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2
-            )
+        child: Text(
+          "LEAD EAM",
+          style: GoogleFonts.bodoniModa(
+            fontSize: screenWidth * 0.08,
+            color: obj.darkGray,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1
           )
         )
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(
-          bottom: screenHeight * 0.02
-        ),
+      bottomNavigationBar: SizedBox(
+        height: screenHeight * 0.1,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Powered by ",
+              "powered by",
               style: GoogleFonts.poppins(
                 fontSize: screenWidth * 0.04,
-                color: obj.darkGray,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1
+                color: obj.darkGray
               )
+            ),
+            SizedBox(
+              width: screenWidth * 0.03
             ),
             Image.asset(
               "assets/images/lead.png",
-              height: screenWidth * 0.07
+              height: screenWidth * 0.08
             )
           ]
         )

@@ -24,91 +24,96 @@ class IdPreference extends StatelessWidget {
     final obj = Constants();
     
     return ColorfulSafeArea(
-      color: Colors.white,
+      color: obj.lightGray,
       child: Scaffold(
+        backgroundColor: obj.lightGray,
         body: Stack(
+          alignment: Alignment.center,
           children: [
+            SizedBox(
+              height: screenHeight,
+              width: screenWidth
+            ),
             Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/id_preference_bg.jpg"
-                  ),
-                  fit: BoxFit.fill
-                )
-              )
-            ),
-            Center(
-              child: Container(
-                height: screenHeight * 0.5,
-                width: screenWidth * 0.9,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(screenWidth * 0.1)
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      userAccess == "login"
-                        ? "Choose your preferred Id for login"
-                        : "Choose your preferred Id for attendance",
-                      style: GoogleFonts.poppins(
-                        fontSize: screenWidth * 0.04,
-                        color: obj.darkGray,
-                        fontWeight: FontWeight.w500
-                      )
-                    ),
-                    SizedBox(
-                      height: screenHeight * 0.05
-                    ),
-
-                    // Mobile number
-                    ElevatedButton(
-                      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => FetchMobileNumber(userAccess: userAccess) // Navigate to fetch mobile number page
-                      )),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: obj.navyBlue,
-                        fixedSize: Size(screenWidth * 0.8, screenHeight * 0.1),
-                        shape: const RoundedRectangleBorder()
-                      ),
-                      child: Text(
-                        "Mobile Number",
-                        style: GoogleFonts.poppins(
-                          fontSize: screenWidth * 0.04,
-                          color: Colors.white,
-                          letterSpacing: 1
-                        )
-                      )
-                    ),
-                    SizedBox(
-                      height: screenHeight * 0.05
-                    ),
-                
-                    // Employee id
-                    ElevatedButton(
-                      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => EmployeeId(userAccess: userAccess) // Navigate to employee id page
-                      )),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: obj.navyBlue,
-                        fixedSize: Size(screenWidth * 0.8, screenHeight * 0.1),
-                        shape: const RoundedRectangleBorder()
-                      ),
-                      child: Text(
-                        "Employee Id",
-                        style: GoogleFonts.poppins(
-                          fontSize: screenWidth * 0.04,
-                          color: Colors.white,
-                          letterSpacing: 1
-                        )
-                      )
+              padding: EdgeInsets.all(
+                screenWidth * 0.1
+              ),
+              height: screenHeight * 0.5,
+              width: screenWidth * 0.9,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    userAccess == "login"
+                      ? "Your preferred Id for login"
+                      : "Your preferred Id for attendance",
+                    style: GoogleFonts.poppins(
+                      fontSize: screenWidth * 0.035,
+                      fontWeight: FontWeight.w500,
+                      color: obj.darkGray
                     )
-                  ]
-                )
+                  ),
+                  SizedBox(
+                    height: screenWidth * 0.1
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.328,
+                    width: screenWidth * 0.7,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Mobile number
+                        ElevatedButton(
+                          onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) => FetchMobileNumber(userAccess: userAccess) // Navigate to fetch mobile number page
+                          )),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: obj.navyBlue,
+                            fixedSize: Size(screenWidth * 0.3, screenHeight * 0.25),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(screenWidth * 0.05)
+                            )
+                          ),
+                          child: Text(
+                            "Mobile",
+                            style: GoogleFonts.poppins(
+                              fontSize: screenWidth * 0.04,
+                              color: Colors.white,
+                              letterSpacing: 1
+                            )
+                          )
+                        ),
+
+                        // Employee id
+                        ElevatedButton(
+                          onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) => EmployeeId(userAccess: userAccess) // Navigate to employee id page
+                          )),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: obj.navyBlue,
+                            fixedSize: Size(screenWidth * 0.3, screenHeight * 0.25),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(screenWidth * 0.05)
+                            )
+                          ),
+                          child: Text(
+                            "Id",
+                            style: GoogleFonts.poppins(
+                              fontSize: screenWidth * 0.04,
+                              color: Colors.white,
+                              letterSpacing: 1
+                            )
+                          )
+                        )
+                      ]
+                    )
+                  )
+                ]
               )
             ),
+
+            // Back button
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
